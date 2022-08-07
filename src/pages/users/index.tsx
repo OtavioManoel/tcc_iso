@@ -1,20 +1,14 @@
-import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr, Text } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr, Text, Spinner } from "@chakra-ui/react";
 import Link from "next/link";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useQuery } from '@tanstack/react-query'
 import Header from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
+import { useUsers } from "../../services/hooks/useUsers";
 
 export default function UsersList() {
-    const query = useQuery('users', async () => {
-        const response = await fetch('http://localhost:3000/api/users')
-        const data = await response.json()
+    const { data, isLoading, isFetching, error } = useUsers()
 
-        return data;
-    })
-
-    console.log(query)
     return (
         <Box>
             <Header />
@@ -38,6 +32,7 @@ export default function UsersList() {
                             fontWeight='normal'
                         >
                             Usuários
+                            {!isLoading && isFetching && <Spinner size='sm' color='gray.500' ml='4' />}
                         </Heading>
                         <Link href='/users/create' passHref>
                             <Button
@@ -51,48 +46,67 @@ export default function UsersList() {
                             </Button>
                         </Link>
                     </Flex>
-                    <Table
-                        colorScheme='whiteAlpha'
-                    >
-                        <Thead>
-                            <Tr>
-                                <Th px='6' color='gray.300' width='8'>
-                                    <Checkbox colorScheme='green' />
-                                </Th>
-                                <Th>Usuário</Th>
-                                <Th>Data de cadastro</Th>
-                                <Th width='8'></Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td px='6'>
-                                    <Checkbox colorScheme='green' />
-                                </Td>
-                                <Td>
-                                    <Box>
-                                        <Text fontWeight='bold'> Otavio Miranda</Text>
-                                        <Text fontSize='sm' color='gray.300'> otavio.mpm@gmail.com</Text>
-                                    </Box>
-                                </Td>
-                                <Td>
-                                    04 de Junho, 2022
-                                </Td>
-                                <Td>
-                                    <Button
-                                        as='a'
-                                        size='sm'
-                                        fontSize='sm'
-                                        colorScheme='blue'
-                                        leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
-                                    >
-                                        Editar
-                                    </Button>
-                                </Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
-                    <Pagination />
+                    {isLoading ? (
+                        <Flex justify='center'>
+                            <Spinner />
+                        </Flex>
+                    ) : error ? (
+                        <Flex justify='center'>
+                            <Text>Falha ao obeter dados do usuários.</Text>
+                        </Flex>
+                    ) : (
+                        <>
+                            <Table
+                                colorScheme='whiteAlpha'
+                            >
+                                <Thead>
+                                    <Tr>
+                                        <Th px='6' color='gray.300' width='8'>
+                                            <Checkbox colorScheme='green' />
+                                        </Th>
+                                        <Th>Usuário</Th>
+                                        <Th>Data de cadastro</Th>
+                                        <Th width='8'></Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {
+                                        data.map(user => {
+                                            return (
+                                                <Tr key={user.id}>
+                                                    <Td px='6'>
+                                                        <Checkbox colorScheme='green' />
+                                                    </Td>
+                                                    <Td>
+                                                        <Box>
+                                                            <Text fontWeight='bold'>{user.name}</Text>
+                                                            <Text fontSize='sm' color='gray.300'>{user.email}</Text>
+                                                        </Box>
+                                                    </Td>
+                                                    <Td>
+                                                        {user.createdAt}
+                                                    </Td>
+                                                    <Td>
+                                                        <Button
+                                                            as='a'
+                                                            size='sm'
+                                                            fontSize='sm'
+                                                            colorScheme='blue'
+                                                            leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
+                                                        >
+                                                            Editar
+                                                        </Button>
+                                                    </Td>
+                                                </Tr>
+                                            )
+                                        })
+                                    }
+                                </Tbody>
+                            </Table>
+                            <Pagination />
+                        </>
+                    )
+                    }
                 </Box>
             </Flex>
         </Box>
