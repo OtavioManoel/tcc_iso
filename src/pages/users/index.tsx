@@ -1,11 +1,20 @@
 import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
+import { useQuery } from '@tanstack/react-query'
 import Header from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
 export default function UsersList() {
+    const query = useQuery('users', async () => {
+        const response = await fetch('http://localhost:3000/api/users')
+        const data = await response.json()
+
+        return data;
+    })
+
+    console.log(query)
     return (
         <Box>
             <Header />
