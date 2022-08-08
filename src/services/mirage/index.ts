@@ -37,13 +37,16 @@ export function makeServer() {
 
             this.get('/users', function (schema, request) {
                 const { page = 1, per_page = 10 } = request.queryParams
-                const total = schema.all('user').length
+                
+                const total = schema.all('users').length;
 
                 const pageStart = (Number(page) - 1) * Number(per_page);
                 const pageEnd = pageStart + Number(per_page);
-
-                const users = this.serialize(schema.all('user'))
+                
+                const users = this.serialize(schema.all('users'))
                     .users.slice(pageStart, pageEnd)
+
+                console.log('users', users)
 
                 return new Response(
                     200,

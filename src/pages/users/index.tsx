@@ -8,6 +8,7 @@ import { useUsers } from "../../services/hooks/useUsers";
 
 export default function UsersList() {
     const { data, isLoading, isFetching, error } = useUsers()
+    console.log('error ===>', error);
 
     return (
         <Box>
@@ -103,7 +104,11 @@ export default function UsersList() {
                                     }
                                 </Tbody>
                             </Table>
-                            <Pagination />
+                            <Pagination
+                                totalCountOfRegisters={200}
+                                currentPage={5}
+                                onPageChange={() => { }}
+                            />
                         </>
                     )
                     }
