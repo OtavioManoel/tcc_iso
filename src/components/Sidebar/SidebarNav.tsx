@@ -1,18 +1,29 @@
 import { Stack } from "@chakra-ui/react";
-import { RiContactsLine, RiDashboardLine, RiGitMergeLine, RiInputMethodLine } from "react-icons/ri";
+import { RiContactsLine, RiDashboardLine, RiSurveyLine, RiTableAltLine, RiBarChart2Line, RiFileCopyLine, RiAlarmLine, RiPieChart2Line } from "react-icons/ri";
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
 
 export function SidebarNav() {
     return (
         <Stack spacing='12' align='flex-start'>
-            <NavSection title="GERAL">
-                <NavLink icon={RiDashboardLine} href='/dashboard'>Dashboard</NavLink>
-                <NavLink icon={RiContactsLine} href='/users'>Usuários</NavLink>
+            <NavSection title="DOCUMENTOS">
+                <NavLink icon={RiFileCopyLine} href='/files'>Arquivos</NavLink>
             </NavSection>
-            <NavSection title="AUTOMAÇÃO">
-                <NavLink icon={RiInputMethodLine} href='/fomrs'>Formulários</NavLink>
-                <NavLink icon={RiGitMergeLine}href='/automation'>Automação</NavLink>
+            <NavSection title="PGI">
+                <NavLink icon={RiBarChart2Line} href='/monitoring' shouldMatchExactHref={true}>Acompanhamento</NavLink>
+                <NavLink icon={RiAlarmLine} href='/monitoring/alarms' >Alarmes</NavLink>
+                <NavLink icon={RiDashboardLine} href='/monitoring/dashboard'>Dashboard</NavLink>
+            </NavSection>
+            <NavSection title="AUDITORIAS">
+                <NavLink icon={RiSurveyLine} href='/audits' shouldMatchExactHref={true}>Auditorias Internas</NavLink>
+                <NavLink icon={RiDashboardLine} href='/audits/dashboard'>Dashboard</NavLink>
+            </NavSection>
+            <NavSection title="ACOMPANHAMENTO ENERGÉTICO">
+                <NavLink icon={RiTableAltLine} href='/energyMonitoring' shouldMatchExactHref={true} >Tabelas</NavLink>
+                <NavLink icon={RiPieChart2Line} href='/energyMonitoring/dashboard'>Gráficos</NavLink>
+            </NavSection>
+            <NavSection title="ADM">
+                <NavLink icon={RiContactsLine} href='/users'>Usuários</NavLink>
             </NavSection>
         </Stack>
     )
