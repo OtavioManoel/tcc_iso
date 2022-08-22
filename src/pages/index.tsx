@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from '../components/Form/Input';
+import Link from "next/link"
 
 type SignInFormData = {
   email: string
@@ -56,14 +57,16 @@ export default function SignIn() {
           />
 
         </Stack>
-        <Button
-          type='submit'
-          mt='6'
-          colorScheme="green"
-          isLoading={formState.isSubmitting}
-        >
-          Entrar
-        </Button>
+        <Link href='/files' passHref>
+          <Button
+            type='submit'
+            mt='6'
+            colorScheme="green"
+            isLoading={formState.isSubmitting}
+          >
+            Entrar
+          </Button>
+        </Link>
       </Flex>
     </Flex>
   )

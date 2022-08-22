@@ -2,66 +2,29 @@ import { Box, Flex, SimpleGrid, Text, theme } from "@chakra-ui/react";
 import Header from "../../components/Header";
 import dynamic from "next/dynamic";
 import { Sidebar } from "../../components/Sidebar";
-const Chart = dynamic(() => import('react-apexcharts'), {
-    ssr: false
-})
-const options = {
-    chart: {
-        toolbar: {
-            show: false,
-        },
-        zoom: {
-            enabled: false
-        },
-        foreColor: theme.colors.gray[500]
-    },
-    grid: {
-        show: false
-    },
-    dataLabels: {
-        enabled: false
-    },
-    tooltip: {
-        enabled: false
-    },
-    xaxis: {
-        type: 'datetime',
-        axisBorder: {
-            color: theme.colors.gray[600]
-        },
-        axisTicks: {
-            color: theme.colors.gray[600]
-        },
-        categories: [
-            '2022-03-18T00:00:00.000Z',
-            '2022-03-19T00:00:00.000Z',
-            '2022-03-20T00:00:00.000Z',
-            '2022-03-21T00:00:00.000Z',
-            '2022-03-22T00:00:00.000Z',
-            '2022-03-23T00:00:00.000Z',
-            '2022-03-24T00:00:00.000Z',
-            '2022-03-25T00:00:00.000Z',
-        ]
-    },
-    fill: {
-        opacityy: 0.3,
-        type: 'gradient',
-        gradient: {
-            shade: 'dark',
-            opacityyFrom: 0.7,
-            opacityyTo: 0.3
-        }
-    }
+import React from "react";
+import { Chart } from "react-google-charts";
 
-};
-
-const series = [
-    {
-        name: 'series 1',
-        data: [31, 25, 10, 101, 2, 18, 109, 24]
-    }
+export const dataExtendedTo = [
+    ["Task", "Hours per Day"],
+    ["Prorrogado", 36],
+    ["No Praso", 14]
 ];
 
+export const optionsExtendedTo = {
+    title: "Prorrogado",
+};
+
+export const dataStaus = [
+    ["Task", "Hours per Day"],
+    ["Planejada", 10],
+    ["Concluído", 23],
+    ["Em andamento", 17]
+];
+
+export const optionsStaus = {
+    title: "Status",
+};
 export default function Dashboard() {
     return (
         <Flex
@@ -78,26 +41,20 @@ export default function Dashboard() {
             >
                 <Sidebar />
                 <SimpleGrid flex='1' gap='4' minChildWidth='320px' align='flex-start'>
-                    <Box
-                        p={['6', '8']}
-                        bg='gray.800'
-                        borderRadius={8}
-                        pb='4'
-                    >
-                        <Text fontSize='large' mb='4'>Incritos da semana</Text>
-                        <Chart options={options} series={series} type="area" height={160} />
-
-                    </Box>
-                    <Box
-                        p={['6', '8']}
-                        bg='gray.800'
-                        borderRadius={8}
-                        pb='4'
-                    >
-                        <Text fontSize='large' mb='4'>Taxa de abertura</Text>
-                        <Chart options={options} series={series} type="area" height={160} />
-                    </Box>
-
+                    <Chart
+                        chartType="PieChart"
+                        data={dataExtendedTo}
+                        options={optionsExtendedTo}
+                        width={"100%"}
+                        height={"400px"}
+                    />
+                    <Chart
+                        chartType="PieChart"
+                        data={dataStaus}
+                        options={optionsStaus}
+                        width={"100%"}
+                        height={"400px"}
+                    />
                 </SimpleGrid>
             </Flex>
         </Flex>

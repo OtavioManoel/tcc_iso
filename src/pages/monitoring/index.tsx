@@ -1,14 +1,15 @@
-import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr, Text, Spinner } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, Heading, Icon, Spinner, Table, Tbody, Td, Th, Thead, Text, Tr } from "@chakra-ui/react";
 import Link from "next/link";
+import { useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import Header from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-import { useUsers } from "../../services/hooks/useUsers";
-import Faker from "./fake";
+import { useGoals } from "../../services/hooks/useGoals";
 
 export default function UsersList() {
-    const { data, isLoading, isFetching, error } = useUsers()
+    const [page, setPage] = useState(1)
+    const { data, isLoading, isFetching, error } = useGoals(page)
     console.log('error ===>', error);
 
     return (
@@ -36,7 +37,7 @@ export default function UsersList() {
                             Acompanhamento
                             {!isLoading && isFetching && <Spinner size='sm' color='gray.500' ml='4' />}
                         </Heading>
-                        <Link href='/users/create' passHref>
+                        <Link href='/monitoring/create' passHref>
                             <Button
                                 as='a'
                                 size='sm'
@@ -44,7 +45,7 @@ export default function UsersList() {
                                 colorScheme='green'
                                 leftIcon={<Icon as={RiAddLine} fontSize='20' />}
                             >
-                                Criar novo usuário
+                                Criar nova meta
                             </Button>
                         </Link>
                     </Flex>
@@ -66,58 +67,59 @@ export default function UsersList() {
                                         <Th px='6' color='gray.300' width='8'>
                                             <Checkbox colorScheme='green' />
                                         </Th>
-                                        <Th px='20'>Fontes</Th>
-                                        <Th px='10'>What?</Th>
-                                        <Th>Where</Th>
-                                        <Th px='10'>When</Th>
-                                        <Th>Who</Th>
-                                        <Th>Validação</Th>
-                                        <Th px='140'>How?</Th>
-                                        <Th>How Much</Th>
-                                        <Th>Status</Th>
-                                        <Th>Prorrogado para</Th>
-                                        <Th width='8'></Th>
+                                        <Th px='20' alignItems='center'>Fontes</Th>
+                                        <Th px='10' alignItems='center'>What?</Th>
+                                        <Th alignItems='center'>Where</Th>
+                                        <Th px='10' alignItems='center'>When</Th>
+                                        <Th px='10' alignItems='center'>Who</Th>
+                                        <Th alignItems='center'>Validação</Th>
+                                        <Th px='140' alignItems='center'>How?</Th>
+                                        <Th alignItems='center'>How Much</Th>
+                                        <Th alignItems='center'>Status</Th>
+                                        <Th alignItems='center'>Prorrogado para</Th>
+                                        <Th width='8' alignItems='center'></Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
                                     {
-                                        Faker.map(pgi => {
+                                        data.goals.map(goal => {
                                             return (
                                                 <Tr>
                                                     <Td px='6'>
                                                         <Checkbox colorScheme='green' />
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.source}
+                                                    <Td textAlign='center'>
+                                                        {goal.source}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.what}
+                                                    <Td textAlign='center'>
+                                                        {goal.what}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.why}
+                                                    <Td textAlign='center'>
+                                                        {goal.why}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.when}
+                                                    <Td textAlign='center'>
+                                                        {goal.when}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.who}
+                                                    <Td textAlign='center'>
+                                                        {goal.who}
                                                     </Td>
-                                                    <Td>
-                                                       {pgi.validation}
+                                                    <Td textAlign='center'>
+                                                        {goal.validation}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.how}
+                                                    <Td textAlign='center'>
+                                                        {goal.how}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.how_much}
+                                                    <Td textAlign='center'>
+                                                        {goal.how_much}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.status}
+                                                    <Td textAlign='center'>
+                                                        {goal.status}
                                                     </Td>
-                                                    <Td>
-                                                        {pgi.extended_to}
+                                                    <Td textAlign='center'>
+                                                        {goal.extended_to}
                                                     </Td>
-                                                    <Td>
+
+                                                    <Td textAlign='center'>
                                                         <Button
                                                             as='a'
                                                             size='sm'
@@ -135,9 +137,9 @@ export default function UsersList() {
                                 </Tbody>
                             </Table>
                             <Pagination
-                                totalCountOfRegisters={200}
-                                currentPage={5}
-                                onPageChange={() => { }}
+                                totalCountOfRegisters={data.totalCount}
+                                currentPage={page}
+                                onPageChange={setPage}
                             />
                         </>
                     )

@@ -50,12 +50,22 @@ export default function UserCreate() {
                     <Divider my='6' borderColor='gray.700'></Divider>
                     <VStack spacing={['6', '8']}>
                         <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='name' label='Nome completo' error={errors.name} {...register('name')} />
-                            <Input name='email' type='email' label='E-mail' error={errors.email} {...register('email')} />
+                            <Input name='name' label='Fonte' error={errors.name} {...register('name')} />
+                            <Input name='name' label='What?' error={errors.name} {...register('name')} />
                         </SimpleGrid>
                         <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='password' type='password' label='Senha' error={errors.password} {...register('password')} />
-                            <Input name='password_confirmation' type='password' label='Confirmação da senha' error={errors.password_confirmation} {...register('password_confirmation')} />
+                            <Input name='name' label='Where?' error={errors.name} {...register('name')} />
+                            <Input name='name' label='When?' error={errors.name} {...register('name')} />
+                        </SimpleGrid>
+                        <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
+                            <Input name='name' label='Who?' error={errors.name} {...register('name')} />
+                            <Input name='name' label='Validação' error={errors.name} {...register('name')} />
+                            <Input name='name' label='How?' error={errors.name} {...register('name')} />
+                        </SimpleGrid>
+                        <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
+                            <Input name='name' label='How Much?' error={errors.name} {...register('name')} />
+                            <Input name='name' label='Status' error={errors.name} {...register('name')} />
+                            <Input name='name' label='Prorrogado para' error={errors.name} {...register('name')} />
                         </SimpleGrid>
                     </VStack>
 
@@ -64,7 +74,7 @@ export default function UserCreate() {
                         justify='flex-end'
                     >
                         <HStack spacing='4'>
-                            <Link href='/users' passHref>
+                            <Link href='/monitoring' passHref>
                                 <Button colorScheme='whiteAlpha'>Cancelar</Button>
                             </Link>
                             <Button type='submit' colorScheme='green' isLoading={formState.isSubmitting}>Salvar</Button>
