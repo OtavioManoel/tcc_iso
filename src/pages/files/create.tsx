@@ -8,41 +8,41 @@ import Header from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { useMutation } from "@tanstack/react-query"
 import { api } from "../../services/api";
-import { queryClient } from "../../services/queryclient";
 import { useRouter } from "next/router";
+import { queryClient } from "../../services/queryClient";
 
-type CreateUserFormData = {
+type CreateFileFormData = {
     name: string
 }
-const createUserFormSchema = yup.object().shape({
+const createFileFormSchema = yup.object().shape({
     name: yup.string().required('Nome obrigatório'),
 })
 
-export default function FilesCreate() {
+export default function FileCreate() {
     const router = useRouter()
-    const createUser = useMutation(async (user: CreateUserFormData) => {
-        const response = await api.post('users', {
-            users: {
-                ...user,
-                created_at: new Date()
+    const createFile = useMutation(async (file: CreateFileFormData) => {
+        const response = await api.post('files', {
+            files: {
+                ...file,
+                docs: []
             }
         })
 
-        return response.data.user;
+        return response.data.file;
     },{
         onSuccess: () => {
-            queryClient.invalidateQueries(['users']);
+            queryClient.invalidateQueries(['files']);
         }
     })
     const { register, handleSubmit, formState } = useForm({
-        resolver: yupResolver(createUserFormSchema)
+        resolver: yupResolver(createFileFormSchema)
     })
     const { errors } = formState
 
-    const handleCreateUser: SubmitHandler<CreateUserFormData> = async (values) => {
-       await createUser.mutateAsync(values);
+    const handleCreateFile: SubmitHandler<CreateFileFormData> = async (values) => {
+       await createFile.mutateAsync(values);
 
-       router.push('/users')
+       router.push('/files')
     }
     return (
         <Box>
@@ -56,12 +56,12 @@ export default function FilesCreate() {
             >
                 <Sidebar />
 
-                <Box as='form' flex='1' borderRadius={8} bg='gray.800' p={['6', '8']} onSubmit={handleSubmit(handleCreateUser)}>
-                    <Heading size='lg' fontWeight='normal'>Nova Pasta</Heading>
+                <Box as='form' flex='1' borderRadius={8} bg='gray.800' p={['6', '8']} onSubmit={handleSubmit(handleCreateFile)}>
+                    <Heading size='lg' fontWeight='normal'>Criar usuário</Heading>
                     <Divider my='6' borderColor='gray.700'></Divider>
                     <VStack spacing={['6', '8']}>
                         <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='name' label='Nome' error={errors.name} {...register('name')} />
+                            <Input name='name' label='Nome completo' error={errors.name} {...register('name')} />
                         </SimpleGrid>
                     </VStack>
 

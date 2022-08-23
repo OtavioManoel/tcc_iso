@@ -20,6 +20,11 @@ type Goal = {
     extended_to: string;
 }
 
+type File = {
+    name: string;
+    docs: any;
+}
+
 export function makeServer() {
     const server = createServer({
         serializers: {
@@ -27,7 +32,8 @@ export function makeServer() {
         },
         models: {
             users: Model.extend<Partial<User>>({}),
-            goals: Model.extend<Partial<Goal>>({})
+            goals: Model.extend<Partial<Goal>>({}),
+            files: Model.extend<Partial<File>>({}),
         },
 
         factories: {
@@ -45,27 +51,27 @@ export function makeServer() {
 
             goal: Factory.extend({
                 source(i: number) {
-                    if(( i % 2) == 0){
+                    if ((i % 2) == 0) {
                         return 'Gestão SGI'
-                    } else if (( i % 3 ) == 0) {
+                    } else if ((i % 3) == 0) {
                         return 'SWOT'
                     } else {
                         return 'Objetivos e Planejamento'
                     }
                 },
                 what(i: number) {
-                    if(( i % 4) == 0){
+                    if ((i % 4) == 0) {
                         return 'Programar mensalmente indicadores gerenciais'
-                    } else if (( i % 3 ) == 0) {
+                    } else if ((i % 3) == 0) {
                         return 'Adequação NR 12'
                     } else {
                         return 'Adequação LGPD'
                     }
                 },
                 why(i: number) {
-                    if(( i % 5) == 0){
+                    if ((i % 5) == 0) {
                         return 'SGI'
-                    } else if (( i % 3) == 0) {
+                    } else if ((i % 3) == 0) {
                         return 'Área externa Fábrica '
                     } else {
                         return 'BREE'
@@ -75,18 +81,18 @@ export function makeServer() {
                     return faker.date.future()
                 },
                 who(i: number) {
-                    if(( i % 2) == 0){
+                    if ((i % 2) == 0) {
                         return 'Contratação Terceiro'
-                    } else if (( i % 3) == 0) {
+                    } else if ((i % 3) == 0) {
                         return 'SGI/RH'
                     } else {
                         return 'Alessandra/Laís'
                     }
                 },
                 validation(i: number) {
-                    if(( i % 2) == 0){
+                    if ((i % 2) == 0) {
                         return 'Laís'
-                    } else if (( i % 3) == 0) {
+                    } else if ((i % 3) == 0) {
                         return 'Alessandra/Laís'
                     } else {
                         return 'Alessandra'
@@ -96,18 +102,18 @@ export function makeServer() {
                     return faker.lorem.sentence(7)
                 },
                 how_much(i: number) {
-                    if(( i % 2) == 0){
+                    if ((i % 2) == 0) {
                         return 'N/A'
-                    } else if (( i % 3) == 0) {
+                    } else if ((i % 3) == 0) {
                         return 'Em orçamento'
                     } else {
                         return 'PC13697'
                     }
                 },
                 status(i: number) {
-                    if(( i % 2) == 0){
+                    if ((i % 2) == 0) {
                         return 'Planejada'
-                    } else if (( i % 3) == 0) {
+                    } else if ((i % 3) == 0) {
                         return 'Em andamento'
                     } else {
                         return 'Concluído'
@@ -116,12 +122,40 @@ export function makeServer() {
                 extended_to() {
                     return faker.date.future()
                 },
+            }),
+
+            file: Factory.extend({
+                name() {
+                    return 'Política Enegética';
+                },
+                docs() {
+                    return (
+                        [{
+                            id: '1',
+                            url: 'http://localhost',
+                            name: 'Copel 22-03'
+                        },
+                        {
+                            id: '2',
+                            url: 'http://localhost',
+                            name: 'Copel 22-04'
+                        },
+                        {
+                            id: '3',
+                            url: 'http://localhost',
+                            name: 'Copel 22-05'
+                        },
+                    ]
+                    )
+                }
+
             })
         },
 
         seeds(server) {
-            server.createList('user', 50)
-            server.createList('goal', 50)
+            server.createList('user', 1)
+            server.createList('goal', 1)
+            server.createList('file', 1)
         },
 
         routes() {
@@ -168,9 +202,30 @@ export function makeServer() {
                     { goals }
                 )
             })
+            this.get('/files', function (schema, request) {
+                const { page = 1, per_page = 100000 } = request.queryParams
+
+                const total = schema.all('files').length;
+
+                const pageStart = (Number(page) - 1) * Number(per_page);
+                const pageEnd = pageStart + Number(per_page);
+
+                const files = this.serialize(schema.all('files'))
+                    .files
+                    .slice(pageStart, pageEnd)
+
+                console.log('files', files)
+
+                return new Response(
+                    200,
+                    { 'x-total-count': String(total) },
+                    { files }
+                )
+            })
 
             this.post('/users')
             this.post('/goals')
+            this.post('/files')
 
             this.namespace = '';
             this.passthrough()
