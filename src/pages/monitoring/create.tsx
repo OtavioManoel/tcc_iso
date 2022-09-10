@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { useMutation } from "@tanstack/react-query"
 import { api } from "../../services/api";
-import { queryClient } from "../../services/queryclient";
+import { queryClient } from "../../services/queryClient";
 import { useRouter } from "next/router";
 
 type CreateGoalFormData = {
@@ -32,8 +32,7 @@ const createGoalFormSchema = yup.object().shape({
     validation: yup.string().required('campo obrigatório'),
     how: yup.string().required('campo obrigatório'),
     how_much: yup.string().required('campo obrigatório'),
-    status: yup.string().required('campo obrigatório'),
-    extended_to: yup.string().required('campo obrigatório'),
+    status: yup.string().required('campo obrigatório')
 })
 
 export default function GoalCreate() {
@@ -75,28 +74,26 @@ export default function GoalCreate() {
                 <Sidebar />
 
                 <Box as='form' flex='1' borderRadius={8} bg='gray.800' p={['6', '8']} onSubmit={handleSubmit(handleCreateGoal)}>
-                    <Heading size='lg' fontWeight='normal'>Criar usuário</Heading>
+                    <Heading size='lg' fontWeight='normal'>Nova meta</Heading>
                     <Divider my='6' borderColor='gray.700'></Divider>
                     <VStack spacing={['6', '8']}>
                         <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='source' label='source' error={errors.source} {...register('source')} />
-                            <Input name='what' label='what' error={errors.what} {...register('what')} />
+                            <Input name='source' label='Fonte' error={errors.source} {...register('source')} />
+                            <Input name='what' label='What? / O que?' error={errors.what} {...register('what')} />
+                            <Input name='why' label='Where? / Onde?' error={errors.why} {...register('why')} />
                         </SimpleGrid>
                         <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='why' label='why' error={errors.why} {...register('why')} />
-                            <Input name='when' label='when' error={errors.when} {...register('when')} />
+                            <Input name='when' label='When? / Quando?' error={errors.when} {...register('when')} />
+                            <Input name='who' label='Who? / Quem?' error={errors.source} {...register('who')} />
+                            <Input name='validation' label='Validação' error={errors.validation} {...register('validation')} />
                         </SimpleGrid>
                         <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='who' label='who' error={errors.source} {...register('who')} />
-                            <Input name='validation' label='validation' error={errors.validation} {...register('validation')} />
+                            <Input name='how' label='How? / Como?' error={errors.how} {...register('how')} />
+                            <Input name='how_much' label='How much? / Quanto?' error={errors.how_much} {...register('how_much')} />
                         </SimpleGrid>
                         <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='how' label='source' error={errors.how} {...register('how')} />
-                            <Input name='how_much' label='how_much' error={errors.how_much} {...register('how_much')} />
-                        </SimpleGrid>
-                        <SimpleGrid minChildWidth='240px' spacing={['6', '8']} w='100%'>
-                            <Input name='status' label='status' label='status' error={errors.status} {...register('status')} />
-                            <Input name='extended_to'  label='extended_to' error={errors.extended_to} {...register('extended_to')} />
+                            <Input name='status' label='Status' error={errors.status} {...register('status')} />
+                            <Input name='extended_to'  label='Prorrogado' error={errors.extended_to} {...register('extended_to')} />
                         </SimpleGrid>
                     </VStack>
 

@@ -7,7 +7,7 @@ import { Sidebar } from "../../components/Sidebar";
 import { useUsers } from "../../services/hooks/useUsers";
 
 export default function UsersList() {
-    const { data, isLoading, isFetching, error } = useUsers()
+    const { data, isLoading, isFetching, error } = useUsers(1)
     console.log('error ===>', error);
 
     return (
@@ -35,7 +35,7 @@ export default function UsersList() {
                             Usuários
                             {!isLoading && isFetching && <Spinner size='sm' color='gray.500' ml='4' />}
                         </Heading>
-                        <Link href='/users/create' passHref>
+                        <Link href='/audits/create' passHref>
                             <Button
                                 as='a'
                                 size='sm'
@@ -43,7 +43,7 @@ export default function UsersList() {
                                 colorScheme='green'
                                 leftIcon={<Icon as={RiAddLine} fontSize='20' />}
                             >
-                                Criar novo usuário
+                                Criar nova auditoria
                             </Button>
                         </Link>
                     </Flex>
@@ -65,8 +65,8 @@ export default function UsersList() {
                                         <Th px='6' color='gray.300' width='8'>
                                             <Checkbox colorScheme='green' />
                                         </Th>
-                                        <Th>Usuário</Th>
-                                        <Th>Data de cadastro</Th>
+                                        <Th>Auditor</Th>
+                                        <Th>Data</Th>
                                         <Th width='8'></Th>
                                     </Tr>
                                 </Thead>
@@ -78,12 +78,11 @@ export default function UsersList() {
                                         </Td>
                                         <Td>
                                             <Box>
-                                                <Text fontWeight='bold'>bagulho</Text>
-                                                <Text fontSize='sm' color='gray.300'>doideira</Text>
+                                                <Text fontWeight='bold'>Campo1</Text>
                                             </Box>
                                         </Td>
                                         <Td>
-                                           filho feio
+                                           24/08/2022
                                         </Td>
                                         <Td>
                                             <Button

@@ -6,9 +6,9 @@ import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 import { useUsers } from "../../services/hooks/useUsers";
 
-export default function UsersList() {
-    const { data, isLoading, isFetching, error } = useUsers()
-    console.log('error ===>', error);
+export default function EnergyMonitoring() {
+    const { data, isLoading, isFetching, error } = useUsers(1)
+    console.log('error ===>', data);
 
     return (
         <Box>
@@ -71,7 +71,7 @@ export default function UsersList() {
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    {
+                                    {/* {
                                         data.map(user => {
                                             return (
                                                 <Tr key={user.id}>
@@ -101,7 +101,7 @@ export default function UsersList() {
                                                 </Tr>
                                             )
                                         })
-                                    }
+                                    } */}
                                 </Tbody>
                             </Table>
                             <Pagination

@@ -5,13 +5,13 @@ import { Input as ChackraInput, FormLabel, FormControl, InputProps as ChackraInp
 interface InputProps extends ChackraInputProps {
     name: string;
     label?: string;
-    error?: FieldError;
+    error?: any;
 }
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps>
     = ({ name, label, error = null, ...rest }, ref) => {
         return (
             <FormControl isInvalid={!!error}>
-                {!!label && <FormLabel hmtlFor={name}>{label}</FormLabel>}
+                {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
                 <ChackraInput
                     id={name}
                     name={name}

@@ -25,6 +25,19 @@ type File = {
     docs: any;
 }
 
+type Audit = {
+    names: any
+    goal: string
+    requirements: string
+    reference_documents: string
+    audit_date: string
+    audit_duration: string
+    audit_team: string
+    comments: string
+    non_compliance: string
+    date: string
+}
+
 export function makeServer() {
     const server = createServer({
         serializers: {
@@ -34,6 +47,7 @@ export function makeServer() {
             users: Model.extend<Partial<User>>({}),
             goals: Model.extend<Partial<Goal>>({}),
             files: Model.extend<Partial<File>>({}),
+            audits: Model.extend<Partial<Audit>>({}),
         },
 
         factories: {
@@ -119,14 +133,18 @@ export function makeServer() {
                         return 'Concluído'
                     }
                 },
-                extended_to() {
-                    return faker.date.future()
+                extended_to(i: number) {
+                    if ((i % 3) == 0) {
+                        return faker.date.future()
+                    } else {
+                        return
+                    }
                 },
             }),
 
             file: Factory.extend({
                 name() {
-                    return 'Política Enegética';
+                    return 'Contas Energética';
                 },
                 docs() {
                     return (
@@ -145,17 +163,51 @@ export function makeServer() {
                             url: 'http://localhost',
                             name: 'Copel 22-05'
                         },
-                    ]
+                        ]
                     )
                 }
 
+            }),
+
+            audit: Factory.extend({
+                names() {
+                    return ['Otavio', 'Matheus']
+                },
+                goal() {
+                    return 'Verifar a estrutuda da maquina de secagem'
+                },
+                requirements() {
+                    return 'Espera a maquina esfriar'
+                },
+                reference_documents() {
+                    return 'iso 50001'
+                },
+                audit_date() {
+                    return '24/09/2022'
+                },
+                audit_duration() {
+                    return 10
+                },
+                audit_team() {
+                    return 'Otavio, Marcelo, Matheus, Maria'
+                },
+                comments() {
+                    return 'Troca do equipamento'
+                },
+                non_compliance() {
+                    return 'Tudo em conformidade'
+                },
+                date() {
+                    return '24/08/2022'
+                },
             })
         },
 
         seeds(server) {
             server.createList('user', 1)
-            server.createList('goal', 1)
+            server.createList('goal', 32)
             server.createList('file', 1)
+            server.createList('audit', 1)
         },
 
         routes() {
@@ -223,9 +275,31 @@ export function makeServer() {
                 )
             })
 
+            this.get('/audits', function (schema, request) {
+                const { page = 1, per_page = 10 } = request.queryParams
+
+                const total = schema.all('audits').length;
+
+                const pageStart = (Number(page) - 1) * Number(per_page);
+                const pageEnd = pageStart + Number(per_page);
+
+                const audits = this.serialize(schema.all('audits'))
+                    .audits
+                    .slice(pageStart, pageEnd)
+
+                console.log('audits', audits)
+
+                return new Response(
+                    200,
+                    { 'x-total-count': String(total) },
+                    { audits }
+                )
+            })
+
             this.post('/users')
             this.post('/goals')
             this.post('/files')
+            this.post('/audits')
 
             this.namespace = '';
             this.passthrough()

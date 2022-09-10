@@ -6,12 +6,11 @@ import { NavSection } from "./NavSection";
 export function SidebarNav() {
     return (
         <Stack spacing='12' align='flex-start'>
-            <NavSection title="DOCUMENTOS">
+            <NavSection title="GESTÃO DA INFTOMÇÃO">
                 <NavLink icon={RiFileCopyLine} href='/files'>Arquivos</NavLink>
             </NavSection>
             <NavSection title="PGI">
                 <NavLink icon={RiBarChart2Line} href='/monitoring' shouldMatchExactHref={true}>Acompanhamento</NavLink>
-                <NavLink icon={RiAlarmLine} href='/monitoring/alarms' >Alarmes</NavLink>
                 <NavLink icon={RiDashboardLine} href='/monitoring/dashboard'>Dashboard</NavLink>
             </NavSection>
             <NavSection title="AUDITORIAS">
