@@ -10,6 +10,7 @@ import { useUsers } from "../../services/hooks/useUsers";
 export default function UsersList() {
     const [page,setPage] = useState(1)
     const { data, isLoading, isFetching, error } = useUsers(page)
+    console.log(data)
 
     return (
         <Box>
@@ -86,7 +87,7 @@ export default function UsersList() {
                                                         </Box>
                                                     </Td>
                                                     <Td>
-                                                        {user.createdAt}
+                                                        {user.created_at}
                                                     </Td>
                                                     <Td>
                                                         <Button
