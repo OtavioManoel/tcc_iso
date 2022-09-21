@@ -11,8 +11,8 @@ import {
   Flex,
   useToast,
   Tooltip,
-} from '@chakra-ui/react';
-import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
+} from "@chakra-ui/react";
+import axios, { AxiosRequestConfig, CancelTokenSource } from "axios";
 import {
   useState,
   SetStateAction,
@@ -21,15 +21,15 @@ import {
   forwardRef,
   useCallback,
   useEffect,
-} from 'react';
+} from "react";
 import {
   FieldError,
   FieldValues,
   UseFormSetError,
   UseFormTrigger,
-} from 'react-hook-form';
-import { FiAlertCircle, FiPlus } from 'react-icons/fi';
-import { api } from '../../services/api';
+} from "react-hook-form";
+import { FiAlertCircle, FiPlus } from "react-icons/fi";
+import { api } from "../../services/api";
 
 export interface FileInputProps {
   name: string;
@@ -74,25 +74,25 @@ const FileInputBase: ForwardRefRenderFunction<
         return;
       }
 
-      setImageUrl('');
-      setLocalImageUrl('');
-      setError('image', null);
+      setImageUrl("");
+      setLocalImageUrl("");
+      setError("image", null);
       setIsSending(true);
 
       await onChange(event);
-      trigger('image');
+      trigger("image");
 
       const formData = new FormData();
 
       formData.append(event.target.name, event.target.files[0]);
-      formData.append('key', process.env.NEXT_PUBLIC_IMGBB_API_KEY);
+      formData.append("key", process.env.NEXT_PUBLIC_IMGBB_API_KEY);
 
       const { CancelToken } = axios;
       const source = CancelToken.source();
       setCancelToken(source);
 
       const config = {
-        headers: { 'content-type': 'multipart/form-data' },
+        headers: { "content-type": "multipart/form-data" },
         onUploadProgress: (e: ProgressEvent) => {
           setProgress(Math.round((e.loaded * 100) / e.total));
         },
@@ -100,24 +100,24 @@ const FileInputBase: ForwardRefRenderFunction<
       } as AxiosRequestConfig;
 
       try {
+        console.log('Aqui puta',URL.createObjectURL(event.target.files[0]));
+        setLocalImageUrl(URL.createObjectURL(event.target.files[0]));
         const response = await api.post(
-          'https://api.imgbb.com/1/upload',
+          "https://api.imgbb.com/1/upload",
           formData,
           config
         );
 
         setImageUrl(response.data.data.url);
-        setLocalImageUrl(URL.createObjectURL(event.target.files[0]));
       } catch (err) {
-        if (err?.message === 'Cancelled image upload.') return;
-
-        toast({
-          title: 'Falha no envio',
-          description: 'Ocorreu um erro ao realizar o upload do documento.',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
+        // if (err?.message === 'Cancelled image upload.') return;
+        // toast({
+        //   title: 'Falha no envio',
+        //   description: 'Ocorreu um erro ao realizar o upload do documento.',
+        //   status: 'error',
+        //   duration: 5000,
+        //   isClosable: true,
+        // });
       } finally {
         setIsSending(false);
         setProgress(0);
@@ -128,7 +128,7 @@ const FileInputBase: ForwardRefRenderFunction<
 
   useEffect(() => {
     if (error?.message && isSending && cancelToken?.cancel) {
-      cancelToken.cancel('Cancelled image upload.');
+      cancelToken.cancel("Cancelled image upload.");
       setCancelToken(null);
     }
   }, [cancelToken, error, isSending]);
@@ -140,7 +140,7 @@ const FileInputBase: ForwardRefRenderFunction<
         w={40}
         h={40}
         htmlFor={name}
-        cursor={isSending ? 'progress' : 'pointer'}
+        cursor={isSending ? "progress" : "pointer"}
         opacity={isSending ? 0.5 : 1}
       >
         {localImageUrl && !isSending ? (
@@ -163,7 +163,7 @@ const FileInputBase: ForwardRefRenderFunction<
             bgColor="pGray.800"
             color="pGray.200"
             borderWidth={error?.message && 2}
-            borderColor={error?.message && 'red.500'}
+            borderColor={error?.message && "red.500"}
           >
             {isSending ? (
               <>
@@ -218,7 +218,7 @@ const FileInputBase: ForwardRefRenderFunction<
           ref={ref}
           type="file"
           style={{
-            display: 'none',
+            display: "none",
           }}
           {...rest}
         />

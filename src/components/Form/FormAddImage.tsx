@@ -31,9 +31,9 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
       validate: {
         lessThan10MB: fileList =>
           fileList[0].size < 10000000 || 'O arquivo deve ser menor que 10MB',
-        acceptedFormats: fileList =>
-          acceptedFormatsRegex.test(fileList[0].type) ||
-          'Somente são aceitos arquivos PNG, JPEG e GIF',
+        // acceptedFormats: fileList =>
+        //   acceptedFormatsRegex.test(fileList[0].type) ||
+        //   'Somente são aceitos arquivos PNG, JPEG e GIF',
       },
     },
     title: {
@@ -77,31 +77,31 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
 
   const onSubmit = async (data: NewImageData): Promise<void> => {
     try {
-      if (!imageUrl) {
-        toast({
-          status: 'error',
-          title: 'Documento não adicionada',
-          description:
-            'É preciso adicionar e aguardar o upload do arquivo antes de realizar o cadastro.',
-        });
-        return;
-      }
-      await mutation.mutateAsync(data);
-      toast({
-        title: 'Documento cadastrada',
-        description: 'Documento foi cadastradaocom sucesso.',
-        status: 'success',
-      });
+    //   if (!imageUrl) {
+    //     toast({
+    //       status: 'error',
+    //       title: 'Documento não adicionada',
+    //       description:
+    //         'É preciso adicionar e aguardar o upload do arquivo antes de realizar o cadastro.',
+    //     });
+    //     return;
+    //   }
+    //   await mutation.mutateAsync(data);
+    //   toast({
+    //     title: 'Documento cadastrada',
+    //     description: 'Documento foi cadastradaocom sucesso.',
+    //     status: 'success',
+    //   });
     } catch {
-      toast({
-        title: 'Falha no cadastro',
-        description: 'Ocorreu um erro ao tentar cadastrar o documento.',
-        status: 'error',
-      });
+      // toast({
+      //   title: 'Falha no cadastro',
+      //   description: 'Ocorreu um erro ao tentar cadastrar o documento.',
+      //   status: 'error',
+      // });
     } finally {
-      reset();
-      setImageUrl('');
-      setLocalImageUrl('');
+      // reset();
+      // setImageUrl('');
+      // setLocalImageUrl('');
       closeModal();
     }
   };
@@ -125,11 +125,6 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
           error={errors.title}
         />
 
-        <TextInput
-          placeholder="Descrição..."
-          {...register('description', formValidations.description)}
-          error={errors.description}
-        />
       </Stack>
 
       <Button

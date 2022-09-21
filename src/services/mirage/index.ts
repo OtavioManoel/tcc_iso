@@ -67,8 +67,8 @@ export function makeServer() {
         email() {
           return faker.internet.email().toLowerCase();
         },
-        createdAt(i:number) {
-          return `${i+10}/0${i+1}/2022`;
+        createdAt(i: number) {
+          return `${i + 10}/0${i + 1}/2022`;
         },
       }),
 
@@ -339,6 +339,7 @@ export function makeServer() {
       this.post("/goals");
       this.post("/files");
       this.post("/audits");
+      this.post("/https://api.imgbb.com/1/upload");
 
       this.namespace = "";
       this.passthrough();
