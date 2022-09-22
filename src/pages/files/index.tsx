@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { RiAddCircleLine, RiAddLine, RiFileDownloadLine, RiMenuLine } from "react-icons/ri";
+
 import Header from "../../components/Header";
 import { ModalAddImage } from "../../components/Modal/AddImage";
 import { Sidebar } from "../../components/Sidebar";
@@ -48,6 +49,7 @@ export default function files() {
               </Button>
             </Link>
           </Flex>
+
 
           <Accordion allowMultiple>
             {isLoading ? (
@@ -110,6 +112,7 @@ export default function files() {
                               mr="2"
                             ></IconButton>
                           </Box>
+
                         </Flex>
                       </AccordionPanel>
                     </AccordionItem>
@@ -121,6 +124,7 @@ export default function files() {
         </Box>
       </Flex>
       <ModalAddImage isOpen={isOpen} onClose={onClose} />
+
     </Box>
   );
 }
