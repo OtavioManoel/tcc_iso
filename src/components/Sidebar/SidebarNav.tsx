@@ -9,13 +9,12 @@ export function SidebarNav() {
             <NavSection title="GESTÃO DA INFTOMÇÃO">
                 <NavLink icon={RiFileCopyLine} href='/files'>Arquivos</NavLink>
             </NavSection>
-            <NavSection title="PGI">
+            <NavSection title="ACOMPANHAMENTO DE ATIVIDADES">
                 <NavLink icon={RiBarChart2Line} href='/monitoring' shouldMatchExactHref={true}>Acompanhamento</NavLink>
                 <NavLink icon={RiDashboardLine} href='/monitoring/dashboard'>Dashboard</NavLink>
             </NavSection>
             <NavSection title="AUDITORIAS">
                 <NavLink icon={RiSurveyLine} href='/audits' shouldMatchExactHref={true}>Auditorias Internas</NavLink>
-                <NavLink icon={RiDashboardLine} href='/audits/dashboard'>Dashboard</NavLink>
             </NavSection>
             <NavSection title="ACOMPANHAMENTO ENERGÉTICO">
                 <NavLink icon={RiTableAltLine} href='/energyMonitoring' shouldMatchExactHref={true} >Tabelas</NavLink>
