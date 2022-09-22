@@ -12,16 +12,20 @@ import {
   Text,
   Spinner,
   IconButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { RiAddLine, RiFileDownloadLine } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { RiAddCircleLine, RiAddLine, RiFileDownloadLine, RiMenuLine } from "react-icons/ri";
+
 import Header from "../../components/Header";
+import { ModalAddImage } from "../../components/Modal/AddImage";
 import { Sidebar } from "../../components/Sidebar";
 import { useFiles } from "../../services/hooks/useFiles";
 
 export default function files() {
   const { data, isLoading, error } = useFiles(1);
-
+  const { onOpen, isOpen, onClose } = useDisclosure();
   return (
     <Box>
       <Header />
@@ -45,6 +49,7 @@ export default function files() {
               </Button>
             </Link>
           </Flex>
+
 
           <Accordion allowMultiple>
             {isLoading ? (
@@ -97,6 +102,17 @@ export default function files() {
                               </Box>
                             );
                           })}
+                          <Box w="90" p={4} color="white">
+                            <IconButton
+                              aria-label="Open navigation"
+                              icon={<Icon as={RiAddCircleLine} />}
+                              fontSize="60"
+                              variant="unstyled"
+                              onClick={() => onOpen()}
+                              mr="2"
+                            ></IconButton>
+                          </Box>
+
                         </Flex>
                       </AccordionPanel>
                     </AccordionItem>
@@ -107,6 +123,8 @@ export default function files() {
           </Accordion>
         </Box>
       </Flex>
+      <ModalAddImage isOpen={isOpen} onClose={onClose} />
+
     </Box>
   );
 }
