@@ -186,7 +186,7 @@ export default function AuditCreate() {
                         justify='flex-end'
                     >
                         <HStack spacing='4'>
-                            <Link href='/auidts' passHref>
+                            <Link href='/audits' passHref>
                                 <Button colorScheme='whiteAlpha'>Cancelar</Button>
                             </Link>
                             <Button type='submit' colorScheme='green' isLoading={formState.isSubmitting}>Salvar</Button>
